@@ -34,19 +34,21 @@ DWORD getdata(LPCSTR path, LPVOID* data) {
 int main(int argc, char* argv[]) {
 	printf("%s Starting ShInj.\n", i);
 
-	if (argc < 2) {
-		printf("%s Missing PID argument.\n", e);
+	if (argc < 3) {
+		printf("%s Usage: ShInj.exe <PID> <Payload File>\n", e);
 		return EXIT_FAILURE;
-	
 	}
 	int PID = atoi(argv[1]);
-	LPVOID payload;
+	LPVOID payload = NULL;
 	LPCSTR cPath = argv[2];
 	
-	printf("%s Trying to open file %s...", i, cPath);
+	printf("%s Trying to open file %s...\n", i, cPath);
 	DWORD iPayloadSize = getdata(cPath, &payload);
-	printf("%s Obtained file contents...", i);
-
+	if (payload == NULL) {
+		printf("%s Couldn't open file. Error: 0x%lx\n", e, GetLastError());
+		return EXIT_FAILURE;
+	}
+	printf("%s Obtained file contents...\n", i);
 	printf("%s Trying to open process handle at PID %ld...\n", d, PID);
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, PID);
 	if (hProcess == NULL) {
