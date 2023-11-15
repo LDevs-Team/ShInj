@@ -1,7 +1,7 @@
 #pragma warning(disable:4477 6328 6031)
 
 #include <Windows.h>
-#include <iostream>
+#include <stdlib.h>
 
 char e[] = "[!]";
 char d[] = "[*]";
